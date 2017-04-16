@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
     public static final String DAILY_FORECAST = "daily_forecast";
+    public static final String HOURLY_FORECAST = "hourly_forecast";
     private Forecast mForecast;
 
     @InjectView(R.id.timeLabel)
@@ -84,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
     private void getForecast(double latitude, double longitude) {
         String apiKey  = "70fa9c06094f0d6ac2606ebb569d1810";
 
-        String forecastURL = "https://api.darksky.net/forecast/" + apiKey + "/" + latitude + "," + longitude;
+        String temperatureUnit = "si" ;
+
+        String forecastURL = "https://api.darksky.net/forecast/" + apiKey + "/" + latitude + "," + longitude + "?units=" + temperatureUnit;
 
 
         if (isNetworkAvailable()) {
@@ -276,6 +279,12 @@ public class MainActivity extends AppCompatActivity {
     public void startDailyActivity (View view){
         Intent intent = new Intent(this, DailyForecastActivity.class);
         intent.putExtra(DAILY_FORECAST, mForecast.getDailyForecast());
+        startActivity(intent);
+    }
+    @OnClick (R.id.hourlyButton)
+    public void startHourlyActivity (View view){
+        Intent intent = new Intent(this, HourlyForecastActivity.class);
+        intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
         startActivity(intent);
     }
 }
